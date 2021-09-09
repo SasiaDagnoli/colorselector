@@ -1,16 +1,14 @@
 "use strict";
 
-//let hex = "#ffffff";
+document.querySelector(".color").addEventListener("input", userColorSelect);
 
-//let colorConvert = hexToRgb(hex);
-//console.log(colorConvert);
-document.querySelector(".color").addEventListener("input", colorPicker);
+function userColorSelect() {
+  console.log("userColorSelect");
 
-function colorPicker() {
-  console.log("Colorpicker");
   console.log(document.querySelector(".color").value);
 
   showHex();
+  showRgb();
 }
 
 function showHex() {
@@ -32,11 +30,16 @@ function hexToRgb(color) {
   };
 
   //const colorValue = document.querySelector(".color").value;
-  let str = `${colorRGB.r} ${colorRGB.g} ${colorRGB.b}`;
-  document.querySelector(".rgb").textContent = `RGB: ${str}`;
+  /* let str = `${colorRGB.r} ${colorRGB.g} ${colorRGB.b}`;
+  document.querySelector(".rgb").textContent = `RGB: ${str}`; */
 
   rgbToHsl(r, g, b);
   return colorRGB;
+}
+
+function showRgb(r, g, b) {
+  let str = `${colorRGB.r} ${colorRGB.g} ${colorRGB.b}`;
+  document.querySelector(".rgb").textContent = `RGB: ${str}`;
 }
 
 function rgbToHsl(r, g, b) {
@@ -77,3 +80,5 @@ function rgbToHsl(r, g, b) {
   console.log("hsl(%f,%f%,%f%)", h, s, l); // just for testing
   document.querySelector(".hsl").textContent = `HSL: ${h}, ${s}, ${l}`;
 }
+
+function showHsl() {}
