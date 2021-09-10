@@ -26,9 +26,16 @@ function showSelectedColor() {
   const dropDown = document.querySelector("#colorbuttons").value;
   if (dropDown === "analogous") {
     const analogousColors = calculateAnalogous(colorHSL);
-    hslToRgb(analogousColors);
+    analogueRgb(analogousColors);
   } else if (dropDown === "monochromatic") {
-    calculateMonochromatic();
+    const monochromaticColors = calculateMonochromatic(colorHSL);
+    monochromaticRgb(monochromaticColors);
+  } else if (dropDown === "triad") {
+    const triadColors = calculateTriad(colorHSL);
+    triadRgb(triadColors);
+  } else if (dropDown === "complementary") {
+    const complementaryColors = calculateComplementary(colorHSL);
+    complementaryRgb(complementaryColors);
   }
 }
 
@@ -131,7 +138,7 @@ function calculateAnalogous(colorHSL) {
   return arrOfColors;
 }
 
-function hslToRgb(arrOfColors) {
+function analogueRgb(arrOfColors) {
   console.log(arrOfColors);
   //document.querySelector(".colorbox1").textContent = `HSL: ${arrOfColors[0].h}`;
   document.querySelector(
@@ -148,8 +155,78 @@ function hslToRgb(arrOfColors) {
   ).style.backgroundColor = `hsl(${arrOfColors[3].h}, ${arrOfColors[3].s}%, ${arrOfColors[3].l}%)`;
 }
 
-function calculateMonochromatic() {
+function calculateMonochromatic(colorHSL) {
   console.log("calcualte monochromatic");
+  let hslObject = colorHSL;
+  let arrOfColors2 = [];
+  for (let i = 0; i < 4; i++) {
+    console.log(i);
+    arrOfColors2[i] = Object.assign({}, hslObject);
+  }
+  arrOfColors2[0].s = bringIntoInterval(arrOfColors2[0].s + 10, 100);
+  arrOfColors2[1].s = bringIntoInterval(arrOfColors2[1].s + 20, 100);
+  arrOfColors2[2].l = bringIntoInterval(arrOfColors2[2].l + 30, 100);
+  arrOfColors2[3].l = bringIntoInterval(arrOfColors2[3].l + 40, 100);
+  console.log(arrOfColors2);
+  return arrOfColors2;
+}
+
+function monochromaticRgb(arrOfColors2) {
+  document.querySelector(
+    ".colorbox1"
+  ).style.backgroundColor = `hsl(${arrOfColors2[0].h}, ${arrOfColors2[0].s}%, ${arrOfColors2[0].l}%)`;
+  document.querySelector(
+    ".colorbox2"
+  ).style.backgroundColor = `hsl(${arrOfColors2[1].h}, ${arrOfColors2[1].s}%, ${arrOfColors2[1].l}%)`;
+  document.querySelector(
+    ".colorbox3"
+  ).style.backgroundColor = `hsl(${arrOfColors2[2].h}, ${arrOfColors2[2].s}%, ${arrOfColors2[2].l}%)`;
+  document.querySelector(
+    ".colorbox4"
+  ).style.backgroundColor = `hsl(${arrOfColors2[3].h}, ${arrOfColors2[3].s}%, ${arrOfColors2[3].l}%)`;
+}
+
+function calculateTriad(colorHSL) {
+  let hslObject = colorHSL;
+  let arrOfColors = [];
+  for (let i = 0; i < 4; i++) {
+    console.log(i);
+    arrOfColors[i] = Object.assign({}, hslObject);
+  }
+  //Box 1
+  arrOfColors[0].s = bringIntoInterval(arrOfColors[0].s + 60, 360);
+  //Box 2
+  arrOfColors[1].h = bringIntoInterval(arrOfColors[1].h + 120, 360);
+
+  return arrOfColors;
+}
+
+function triadRgb(arrOfColors) {
+  document.querySelector(
+    ".colorbox1"
+  ).style.backgroundColor = `hsl(${arrOfColors[0].h}, ${arrOfColors[0].s}%, ${arrOfColors[0].l}%)`;
+  document.querySelector(
+    ".colorbox2"
+  ).style.backgroundColor = `hsl(${arrOfColors[1].h}, ${arrOfColors[1].s}%, ${arrOfColors[1].l}%)`;
+  console.log(arrOfColors);
+}
+
+function calculateComplementary(colorHSL) {
+  let hslObject = colorHSL;
+  let arrOfColors = [];
+  for (let i = 0; i < 4; i++) {
+    console.log(i);
+    arrOfColors[i] = Object.assign({}, hslObject);
+  }
+  arrOfColors[1].s = bringIntoInterval(arrOfColors[1].s + 180, 360);
+  console.log(arrOfColors);
+
+  return arrOfColors;
+}
+function complementaryRgb(arrOfColors) {
+  document.querySelector(
+    ".colorbox2"
+  ).style.backgroundColor = `hsl(${arrOfColors[1].h}, ${arrOfColors[1].s}%, ${arrOfColors[1].l}%)`;
 }
 
 function bringIntoInterval(number, max) {
